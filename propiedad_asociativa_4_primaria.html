@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de la Propiedad Asociativa - 4º Primaria</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Fredoka & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', 'Inter', sans-serif;
+            background-color: #f0fdf4;
+            touch-action: manipulation;
+        }
+
+        /* Trazo grueso personalizado estilo infantil */
+        .thick-border {
+            border: 6px solid #1e293b;
+        }
+
+        .thick-border-md {
+            border: 4px solid #1e293b;
+        }
+
+        /* Sombras estilo Neumorfismo / Comic 3D */
+        .btn-cartoon {
+            box-shadow: 0px 8px 0px #0f172a;
+            transition: all 0.1s ease;
+        }
+
+        .btn-cartoon:active {
+            transform: translateY(6px);
+            box-shadow: 0px 2px 0px #0f172a;
+        }
+
+        /* Inputs estilizados */
+        .input-num {
+            border: 4px solid #334155;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 0.85rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-num:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.3);
+        }
+
+        .input-correct {
+            background-color: #bbf7d0 !important;
+            border-color: #16a34a !important;
+            color: #14532d !important;
+            box-shadow: 0 0 10px rgba(22, 163, 74, 0.5);
+        }
+
+        .input-incorrect {
+            background-color: #fecaca !important;
+            border-color: #dc2626 !important;
+            color: #7f1d1d !important;
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        /* Animaciones para cambio de pantallas */
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilo para los paréntesis visuales */
+        .parenthesis {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #2563eb;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-2 md:p-6 select-none bg-emerald-100">
+
+    <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
+    <main class="w-full max-w-5xl bg-white rounded-3xl thick-border p-4 md:p-8 shadow-2xl relative overflow-hidden min-h-[620px] flex flex-col justify-between">
+        
+        <!-- PANTALLA 1: INICIAL / PORTADA -->
+        <section id="screen-start" class="fade-in flex flex-col items-center justify-between h-full py-4 text-center my-auto">
+            <div class="space-y-3">
+                <span class="inline-block bg-amber-300 text-amber-950 font-black px-4 py-1.5 rounded-full text-base md:text-xl thick-border-md tracking-wider uppercase shadow-md">
+                    MATEMÁTICAS 4º PRIMARIA
+                </span>
+                <h1 class="text-3xl md:text-5xl font-black text-emerald-900 tracking-wide leading-tight drop-shadow-sm">
+                    Práctica de la propiedad asociativa
+                </h1>
+            </div>
+
+            <!-- Iconos de matemáticas estilizados con grosor 6 -->
+            <div class="my-8 flex justify-center items-center gap-4 md:gap-8 flex-wrap">
+                <div class="w-24 h-24 md:w-32 md:h-32 bg-sky-200 rounded-3xl thick-border flex items-center justify-center text-sky-700 shadow-lg transform -rotate-6 hover:rotate-0 transition-transform">
+                    <span class="text-5xl md:text-6xl font-black">( )</span>
+                </div>
+                <div class="w-28 h-28 md:w-36 md:h-36 bg-amber-300 rounded-3xl thick-border flex items-center justify-center text-amber-800 shadow-xl transform rotate-3 hover:rotate-0 transition-transform">
+                    <i class="fa-solid fa-plus text-6xl md:text-7xl" style="-webkit-text-stroke: 3px #1e293b;"></i>
+                </div>
+                <div class="w-24 h-24 md:w-32 md:h-32 bg-purple-200 rounded-3xl thick-border flex items-center justify-center text-purple-700 shadow-lg transform rotate-6 hover:rotate-0 transition-transform">
+                    <i class="fa-solid fa-layer-group text-5xl md:text-6xl" style="-webkit-text-stroke: 3px #1e293b;"></i>
+                </div>
+            </div>
+
+            <p class="text-slate-600 font-semibold text-lg max-w-lg mb-4">
+                ¡Agrupa los sumandos usando paréntesis de distintas formas y comprueba que obtienes el mismo resultado!
+            </p>
+
+            <button id="btn-start" onclick="startPractice()" class="btn-cartoon bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-black text-2xl md:text-3xl px-10 py-4 rounded-2xl thick-border cursor-pointer flex items-center gap-3 mx-auto">
+                <span>¡COMENZAR!</span>
+                <i class="fa-solid fa-circle-play text-3xl"></i>
+            </button>
+        </section>
+
+        <!-- PANTALLA 2: ACTIVIDADES (20 EN TOTAL) -->
+        <section id="screen-activity" class="hidden fade-in flex-col h-full justify-between space-y-4">
+            <!-- Barra Superior: Progreso y Puntuación -->
+            <div class="flex flex-wrap justify-between items-center gap-2 bg-emerald-50 p-3 rounded-2xl thick-border-md">
+                <div class="flex items-center gap-2">
+                    <span class="bg-emerald-600 text-white font-black px-3 py-1 rounded-xl text-lg thick-border-md" id="activity-counter">
+                        Actividad 1 de 20
+                    </span>
+                </div>
+                <!-- Barra de Progreso Visual -->
+                <div class="flex-1 max-w-xs bg-slate-200 h-6 rounded-full overflow-hidden thick-border-md mx-2">
+                    <div id="progress-bar" class="bg-amber-400 h-full w-0 transition-all duration-300"></div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-emerald-200 text-emerald-900 font-bold px-3 py-1 rounded-xl text-base thick-border-md">
+                        <i class="fa-solid fa-check text-emerald-700"></i> <span id="score-correct">0</span>
+                    </span>
+                    <span class="bg-rose-200 text-rose-900 font-bold px-3 py-1 rounded-xl text-base thick-border-md">
+                        <i class="fa-solid fa-xmark text-rose-700"></i> <span id="score-incorrect">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Área Central del Ejercicio -->
+            <div class="my-auto py-1">
+                <div class="bg-amber-50 rounded-3xl p-3 md:p-5 thick-border shadow-inner space-y-4">
+                    
+                    <!-- Expresión base original -->
+                    <div class="flex items-center justify-center gap-2 text-2xl md:text-3xl font-black text-slate-800 bg-emerald-100 p-3 rounded-2xl border-2 border-emerald-300">
+                        <span class="text-emerald-800 mr-2 text-xl md:text-2xl">Suma de 3 números:</span>
+                        <span class="parenthesis">(</span>
+                        <span id="num-A-display" class="text-indigo-600">28</span>
+                        <span>+</span>
+                        <span id="num-B-display" class="text-indigo-600">56</span>
+                        <span class="parenthesis">)</span>
+                        <span>+</span>
+                        <span id="num-C-display" class="text-indigo-600">9</span>
+                    </div>
+
+                    <!-- Layout Principal: 2 formas de agrupar + Resumen -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
+                        <!-- Forma 1: (A + B) + C -->
+                        <div class="bg-white p-3 md:p-4 rounded-2xl thick-border-md space-y-3">
+                            <h3 class="font-extrabold text-blue-800 text-base text-center bg-blue-50 p-1.5 rounded-xl border border-blue-200">
+                                Forma 1: Agrupar los dos primeros (A + B) + C
+                            </h3>
+                            <!-- Paso 1: ( [A] + [B] ) + [C] -->
+                            <div class="flex items-center justify-center gap-1 md:gap-2 text-lg md:text-xl font-bold flex-wrap">
+                                <span class="parenthesis">(</span>
+                                <input type="number" id="input-f1-A" class="input-num w-14 h-11" placeholder="A" min="0" />
+                                <span>+</span>
+                                <input type="number" id="input-f1-B" class="input-num w-14 h-11" placeholder="B" min="0" />
+                                <span class="parenthesis">)</span>
+                                <span>+</span>
+                                <input type="number" id="input-f1-C" class="input-num w-14 h-11" placeholder="C" min="0" />
+                            </div>
+                            <!-- Paso 2: [A+B] + [C] = [TOTAL] -->
+                            <div class="flex items-center justify-center gap-2 text-lg md:text-xl font-bold flex-wrap border-t-2 border-slate-100 pt-2">
+                                <input type="number" id="input-f1-AB" class="input-num w-20 h-11" placeholder="A+B" min="0" />
+                                <span>+</span>
+                                <input type="number" id="input-f1-C2" class="input-num w-14 h-11" placeholder="C" min="0" />
+                                <span>=</span>
+                                <input type="number" id="input-f1-tot" class="input-num w-22 h-11" placeholder="Total" min="0" />
+                            </div>
+                        </div>
+
+                        <!-- Forma 2: A + (B + C) -->
+                        <div class="bg-white p-3 md:p-4 rounded-2xl thick-border-md space-y-3">
+                            <h3 class="font-extrabold text-purple-800 text-base text-center bg-purple-50 p-1.5 rounded-xl border border-purple-200">
+                                Forma 2: Agrupar los dos últimos A + (B + C)
+                            </h3>
+                            <!-- Paso 1: [A] + ( [B] + [C] ) -->
+                            <div class="flex items-center justify-center gap-1 md:gap-2 text-lg md:text-xl font-bold flex-wrap">
+                                <input type="number" id="input-f2-A" class="input-num w-14 h-11" placeholder="A" min="0" />
+                                <span>+</span>
+                                <span class="parenthesis">(</span>
+                                <input type="number" id="input-f2-B" class="input-num w-14 h-11" placeholder="B" min="0" />
+                                <span>+</span>
+                                <input type="number" id="input-f2-C" class="input-num w-14 h-11" placeholder="C" min="0" />
+                                <span class="parenthesis">)</span>
+                            </div>
+                            <!-- Paso 2: [A] + [B+C] = [TOTAL] -->
+                            <div class="flex items-center justify-center gap-2 text-lg md:text-xl font-bold flex-wrap border-t-2 border-slate-100 pt-2">
+                                <input type="number" id="input-f2-A2" class="input-num w-14 h-11" placeholder="A" min="0" />
+                                <span>+</span>
+                                <input type="number" id="input-f2-BC" class="input-num w-20 h-11" placeholder="B+C" min="0" />
+                                <span>=</span>
+                                <input type="number" id="input-f2-tot" class="input-num w-22 h-11" placeholder="Total" min="0" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Resumen asociativo completo -->
+                    <div class="bg-white p-3 rounded-2xl thick-border-md space-y-2 text-center">
+                        <h4 class="font-extrabold text-slate-700 text-sm md:text-base">
+                            Expresión asociativa completa: (A + B) + C = A + (B + C) = Total
+                        </h4>
+                        <div class="flex flex-wrap items-center justify-center gap-1 md:gap-2 text-base md:text-lg font-bold bg-amber-100 p-2.5 rounded-xl border-2 border-amber-300">
+                            <span class="parenthesis text-xl">(</span>
+                            <input type="number" id="input-eq-A1" class="input-num w-14 h-10 text-base" placeholder="A" min="0" />
+                            <span>+</span>
+                            <input type="number" id="input-eq-B1" class="input-num w-14 h-10 text-base" placeholder="B" min="0" />
+                            <span class="parenthesis text-xl">)</span>
+                            <span>+</span>
+                            <input type="number" id="input-eq-C1" class="input-num w-14 h-10 text-base" placeholder="C" min="0" />
+                            <span>=</span>
+                            <input type="number" id="input-eq-A2" class="input-num w-14 h-10 text-base" placeholder="A" min="0" />
+                            <span>+</span>
+                            <span class="parenthesis text-xl">(</span>
+                            <input type="number" id="input-eq-B2" class="input-num w-14 h-10 text-base" placeholder="B" min="0" />
+                            <span>+</span>
+                            <input type="number" id="input-eq-C2" class="input-num w-14 h-10 text-base" placeholder="C" min="0" />
+                            <span class="parenthesis text-xl">)</span>
+                            <span>=</span>
+                            <input type="number" id="input-eq-tot" class="input-num w-20 h-10 text-base" placeholder="Total" min="0" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Feedback Interactivo (Mensajes tras comprobar) -->
+            <div id="feedback-message" class="hidden text-center p-3 rounded-2xl thick-border-md font-extrabold text-base md:text-lg">
+            </div>
+
+            <!-- Botones de Acción (Ayuda, Comprobar, Siguiente) -->
+            <div class="flex flex-wrap justify-between items-center gap-3 pt-1">
+                <button onclick="openHelpModal()" class="btn-cartoon bg-sky-400 hover:bg-sky-500 text-slate-900 font-black px-4 py-2.5 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-base md:text-lg">
+                    <i class="fa-solid fa-lightbulb text-amber-300 text-xl"></i>
+                    <span>AYUDA</span>
+                </button>
+
+                <div class="flex items-center gap-3">
+                    <button id="btn-check" onclick="checkAnswer()" class="btn-cartoon bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-black px-7 py-2.5 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-lg md:text-xl">
+                        <span>COMPROBAR</span>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </button>
+
+                    <button id="btn-next" onclick="nextActivity()" class="hidden btn-cartoon bg-amber-400 hover:bg-amber-500 text-slate-900 font-black px-7 py-2.5 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-lg md:text-xl">
+                        <span>SIGUIENTE</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: INFORME FINAL -->
+        <section id="screen-report" class="hidden fade-in flex-col items-center justify-between h-full py-4 text-center my-auto">
+            <div class="space-y-2">
+                <span class="bg-amber-300 text-amber-950 font-black px-4 py-1 rounded-full text-lg thick-border-md uppercase">
+                    ¡MISIÓN CUMPLIDA!
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black text-emerald-900">
+                    Informe Final de Resultados
+                </h2>
+            </div>
+
+            <!-- Medalla o Trofeo según puntuación -->
+            <div class="my-6">
+                <div id="badge-container" class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3">
+                    <i id="badge-icon" class="fa-solid fa-trophy text-6xl md:text-7xl"></i>
+                </div>
+                <p id="final-feedback-text" class="text-2xl font-black text-slate-800"></p>
+            </div>
+
+            <!-- Resumen numérico -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-lg mb-6">
+                <div class="bg-emerald-100 p-4 rounded-2xl thick-border-md">
+                    <span class="block text-slate-600 font-bold text-sm">Aciertos</span>
+                    <span id="final-correct" class="text-3xl md:text-4xl font-black text-emerald-700">0</span>
+                </div>
+                <div class="bg-rose-100 p-4 rounded-2xl thick-border-md">
+                    <span class="block text-slate-600 font-bold text-sm">Errores</span>
+                    <span id="final-incorrect" class="text-3xl md:text-4xl font-black text-rose-700">0</span>
+                </div>
+                <div class="bg-sky-100 p-4 rounded-2xl thick-border-md col-span-2 md:col-span-1">
+                    <span class="block text-slate-600 font-bold text-sm">Precisión</span>
+                    <span id="final-percentage" class="text-3xl md:text-4xl font-black text-sky-700">0%</span>
+                </div>
+            </div>
+
+            <button onclick="restartApp()" class="btn-cartoon bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-2xl px-8 py-4 rounded-2xl thick-border cursor-pointer flex items-center gap-3">
+                <i class="fa-solid fa-rotate-right text-2xl"></i>
+                <span>VOLVER A PRACTICAR</span>
+            </button>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE AYUDA (CON AUDIO TTS) -->
+    <div id="modal-help" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl thick-border p-6 max-w-lg w-full shadow-2xl space-y-4 fade-in relative">
+            
+            <div class="flex justify-between items-center border-b-4 border-slate-200 pb-3">
+                <h3 class="text-2xl font-black text-emerald-900 flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-amber-500"></i>
+                    Propiedad Asociativa
+                </h3>
+                <button onclick="closeHelpModal()" class="text-slate-400 hover:text-slate-700 text-3xl font-black">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Explicación Pedagógica -->
+            <div class="space-y-3 text-slate-700 text-base md:text-lg font-semibold leading-relaxed">
+                <p class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+                    La <strong class="text-emerald-700">propiedad asociativa</strong> nos dice que:
+                </p>
+                <div class="bg-amber-100 p-3 rounded-2xl border-2 border-amber-300 text-center font-extrabold text-amber-950">
+                    "Cuando sumamos tres o más números, la forma en que los agrupamos (usando paréntesis) no cambia el resultado final."
+                </div>
+                <p>
+                    <strong>Ejemplo práctico:</strong><br>
+                    Si sumas <span class="text-indigo-600 font-bold">(28 + 56) + 9</span> = 84 + 9 = <span class="text-emerald-700 font-black">93</span><br>
+                    Es igual que <span class="text-indigo-600 font-bold">28 + (56 + 9)</span> = 28 + 65 = <span class="text-emerald-700 font-black">93</span><br>
+                    ¡El total siempre es el mismo!
+                </p>
+            </div>
+
+            <!-- Botón de Audio Sintetizado -->
+            <div class="bg-emerald-50 p-4 rounded-2xl thick-border-md flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-emerald-900 font-bold">
+                    <i class="fa-solid fa-volume-high text-2xl text-emerald-600"></i>
+                    <span>Escuchar explicación</span>
+                </div>
+                <button id="btn-speak" onclick="speakHelpText()" class="btn-cartoon bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-black px-4 py-2 rounded-xl thick-border-md flex items-center gap-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span id="speak-btn-text">Reproducir</span>
+                </button>
+            </div>
+
+            <button onclick="closeHelpModal()" class="w-full btn-cartoon bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-xl py-3 rounded-2xl thick-border">
+                ¡Entendido, a seguir!
+            </button>
+        </div>
+    </div>
+
+    <!-- LÓGICA EN JAVASCRIPT -->
+    <script>
+        // Estado de la aplicación
+        const TOTAL_ACTIVITIES = 20;
+        let currentActivityIndex = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let activitiesData = [];
+        let isEvaluated = false;
+
+        // Elementos DOM
+        const screenStart = document.getElementById('screen-start');
+        const screenActivity = document.getElementById('screen-activity');
+        const screenReport = document.getElementById('screen-report');
+        const modalHelp = document.getElementById('modal-help');
+
+        // Generador de actividades aleatorias (3 sumandos, max 2 cifras: decenas, p.ej. 2 a 99)
+        function generateActivities() {
+            const list = [];
+            // Forzar primer ejercicio exactamente como el ejemplo del prompt: (28 + 56) + 9
+            list.push({ numA: 28, numB: 56, numC: 9 });
+
+            for (let i = 1; i < TOTAL_ACTIVITIES; i++) {
+                // Generar números de hasta 2 cifras (decenas/unidades)
+                let a = Math.floor(Math.random() * 70) + 12; // 12 a 81
+                let b = Math.floor(Math.random() * 50) + 8;  // 8 a 57
+                let c = Math.floor(Math.random() * 40) + 4;  // 4 a 43
+                list.push({ numA: a, numB: b, numC: c });
+            }
+            return list;
+        }
+
+        // Iniciar la práctica
+        function startPractice() {
+            activitiesData = generateActivities();
+            currentActivityIndex = 0;
+            correctCount = 0;
+            incorrectCount = 0;
+
+            screenStart.classList.add('hidden');
+            screenReport.classList.add('hidden');
+            screenActivity.classList.remove('hidden');
+            screenActivity.classList.add('flex');
+
+            loadActivity(currentActivityIndex);
+        }
+
+        // Cargar una actividad específica
+        function loadActivity(index) {
+            isEvaluated = false;
+            const data = activitiesData[index];
+
+            // Actualizar contadores y progreso
+            document.getElementById('activity-counter').innerText = `Actividad ${index + 1} de ${TOTAL_ACTIVITIES}`;
+            document.getElementById('score-correct').innerText = correctCount;
+            document.getElementById('score-incorrect').innerText = incorrectCount;
+            
+            const progressPercent = ((index) / TOTAL_ACTIVITIES) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            // Resetear Mensaje Feedback y Botones
+            const feedbackEl = document.getElementById('feedback-message');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = "hidden text-center p-3 rounded-2xl thick-border-md font-extrabold text-base md:text-lg";
+            
+            document.getElementById('btn-check').classList.remove('hidden');
+            document.getElementById('btn-next').classList.add('hidden');
+
+            // Cargar datos estáticos de cabecera
+            document.getElementById('num-A-display').innerText = data.numA;
+            document.getElementById('num-B-display').innerText = data.numB;
+            document.getElementById('num-C-display').innerText = data.numC;
+
+            // Obtener todos los inputs
+            const inputs = getInputs();
+
+            // Limpiar valores e inputs
+            inputs.all.forEach(input => {
+                input.value = '';
+                // Mantener estilos de clase base
+                const isEq = input.id.startsWith('input-eq');
+                const isWide = input.id.includes('AB') || input.id.includes('BC') || input.id.includes('tot');
+                
+                let baseWidth = 'w-14';
+                if (isWide) baseWidth = input.id.includes('tot') ? 'w-22' : 'w-20';
+                if (isEq) baseWidth = input.id.includes('tot') ? 'w-20' : 'w-14';
+
+                input.className = `input-num ${baseWidth} ${isEq ? 'h-10 text-base' : 'h-11'}`;
+                input.disabled = false;
+            });
+        }
+
+        // Función auxiliar para obtener referencias de los inputs
+        function getInputs() {
+            return {
+                // Forma 1
+                f1A: document.getElementById('input-f1-A'),
+                f1B: document.getElementById('input-f1-B'),
+                f1C: document.getElementById('input-f1-C'),
+                f1AB: document.getElementById('input-f1-AB'),
+                f1C2: document.getElementById('input-f1-C2'),
+                f1Tot: document.getElementById('input-f1-tot'),
+
+                // Forma 2
+                f2A: document.getElementById('input-f2-A'),
+                f2B: document.getElementById('input-f2-B'),
+                f2C: document.getElementById('input-f2-C'),
+                f2A2: document.getElementById('input-f2-A2'),
+                f2BC: document.getElementById('input-f2-BC'),
+                f2Tot: document.getElementById('input-f2-tot'),
+
+                // Resumen Expresión Completa
+                eqA1: document.getElementById('input-eq-A1'),
+                eqB1: document.getElementById('input-eq-B1'),
+                eqC1: document.getElementById('input-eq-C1'),
+                eqA2: document.getElementById('input-eq-A2'),
+                eqB2: document.getElementById('input-eq-B2'),
+                eqC2: document.getElementById('input-eq-C2'),
+                eqTot: document.getElementById('input-eq-tot'),
+
+                get all() {
+                    return [
+                        this.f1A, this.f1B, this.f1C, this.f1AB, this.f1C2, this.f1Tot,
+                        this.f2A, this.f2B, this.f2C, this.f2A2, this.f2BC, this.f2Tot,
+                        this.eqA1, this.eqB1, this.eqC1, this.eqA2, this.eqB2, this.eqC2, this.eqTot
+                    ];
+                }
+            };
+        }
+
+        // Comprobar respuestas
+        function checkAnswer() {
+            if (isEvaluated) return;
+
+            const data = activitiesData[currentActivityIndex];
+            const sumAB = data.numA + data.numB;
+            const sumBC = data.numB + data.numC;
+            const totalSum = data.numA + data.numB + data.numC;
+
+            const inputs = getInputs();
+
+            // Mapeo de soluciones requeridas
+            const targets = [
+                // Forma 1
+                { input: inputs.f1A, expected: data.numA },
+                { input: inputs.f1B, expected: data.numB },
+                { input: inputs.f1C, expected: data.numC },
+                { input: inputs.f1AB, expected: sumAB },
+                { input: inputs.f1C2, expected: data.numC },
+                { input: inputs.f1Tot, expected: totalSum },
+
+                // Forma 2
+                { input: inputs.f2A, expected: data.numA },
+                { input: inputs.f2B, expected: data.numB },
+                { input: inputs.f2C, expected: data.numC },
+                { input: inputs.f2A2, expected: data.numA },
+                { input: inputs.f2BC, expected: sumBC },
+                { input: inputs.f2Tot, expected: totalSum },
+
+                // Resumen
+                { input: inputs.eqA1, expected: data.numA },
+                { input: inputs.eqB1, expected: data.numB },
+                { input: inputs.eqC1, expected: data.numC },
+                { input: inputs.eqA2, expected: data.numA },
+                { input: inputs.eqB2, expected: data.numB },
+                { input: inputs.eqC2, expected: data.numC },
+                { input: inputs.eqTot, expected: totalSum }
+            ];
+
+            let allCorrect = true;
+
+            targets.forEach(item => {
+                const val = parseInt(item.input.value, 10);
+                if (val === item.expected) {
+                    item.input.classList.add('input-correct');
+                } else {
+                    item.input.classList.add('input-incorrect');
+                    allCorrect = false;
+                }
+                item.input.disabled = true;
+            });
+
+            isEvaluated = true;
+
+            // Feedback visual y contadores
+            const feedbackEl = document.getElementById('feedback-message');
+            feedbackEl.classList.remove('hidden');
+
+            if (allCorrect) {
+                correctCount++;
+                feedbackEl.classList.add('bg-emerald-100', 'text-emerald-900', 'border-emerald-400');
+                feedbackEl.innerHTML = '<i class="fa-solid fa-star text-amber-500 mr-2"></i> ¡Perfecto! Has agrupado los números correctamente y el resultado es el mismo.';
+            } else {
+                incorrectCount++;
+                feedbackEl.classList.add('bg-rose-100', 'text-rose-900', 'border-rose-400');
+                feedbackEl.innerHTML = '<i class="fa-solid fa-circle-exclamation text-rose-600 mr-2"></i> Revisa las casillas en rojo. Recuerda calcular primero lo que hay dentro de los paréntesis.';
+            }
+
+            document.getElementById('score-correct').innerText = correctCount;
+            document.getElementById('score-incorrect').innerText = incorrectCount;
+
+            // Ocultar Comprobar y Mostrar Siguiente
+            document.getElementById('btn-check').classList.add('hidden');
+            document.getElementById('btn-next').classList.remove('hidden');
+        }
+
+        // Pasar a la siguiente actividad o mostrar informe
+        function nextActivity() {
+            currentActivityIndex++;
+            if (currentActivityIndex < TOTAL_ACTIVITIES) {
+                loadActivity(currentActivityIndex);
+            } else {
+                showReport();
+            }
+        }
+
+        // Pantalla Final / Informe
+        function showReport() {
+            screenActivity.classList.add('hidden');
+            screenActivity.classList.remove('flex');
+            screenReport.classList.remove('hidden');
+            screenReport.classList.add('flex');
+
+            const total = TOTAL_ACTIVITIES;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            document.getElementById('final-correct').innerText = correctCount;
+            document.getElementById('final-incorrect').innerText = incorrectCount;
+            document.getElementById('final-percentage').innerText = `${percentage}%`;
+
+            const badgeContainer = document.getElementById('badge-container');
+            const badgeIcon = document.getElementById('badge-icon');
+            const feedbackText = document.getElementById('final-feedback-text');
+
+            if (percentage >= 90) {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-amber-300 text-amber-800";
+                badgeIcon.className = "fa-solid fa-trophy text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Maestro/a de la Propiedad Asociativa! 🏆";
+            } else if (percentage >= 70) {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-emerald-300 text-emerald-800";
+                badgeIcon.className = "fa-solid fa-medal text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Gran trabajo! Agrupas superbién los números. 🌟";
+            } else {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-sky-300 text-sky-800";
+                badgeIcon.className = "fa-solid fa-award text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Buen esfuerzo! Repasa los paréntesis y vuelve a intentarlo. 💪";
+            }
+        }
+
+        // Reiniciar Aplicación
+        function restartApp() {
+            screenReport.classList.add('hidden');
+            screenReport.classList.remove('flex');
+            screenStart.classList.remove('hidden');
+            screenStart.classList.add('flex');
+        }
+
+        // Funciones del Modal de Ayuda y Voz TTS (Web Speech API)
+        function openHelpModal() {
+            modalHelp.classList.remove('hidden');
+        }
+
+        function closeHelpModal() {
+            modalHelp.classList.add('hidden');
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            document.getElementById('speak-btn-text').innerText = "Reproducir";
+        }
+
+        function speakHelpText() {
+            if (!('speechSynthesis' in window)) {
+                alert("Tu navegador no soporta la lectura por voz.");
+                return;
+            }
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+                return;
+            }
+
+            const textToSpeak = "La propiedad asociativa dice que cuando sumamos tres o más números, la forma en que los agrupamos usando paréntesis no cambia el resultado final. Por ejemplo, sumar entre paréntesis 28 más 56, y luego sumar 9, da 93. Es lo mismo que sumar 28 más el paréntesis de 56 más 9, que también da 93.";
+            
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9; // Velocidad pausada para educación primaria
+
+            utterance.onstart = () => {
+                document.getElementById('speak-btn-text').innerText = "Detener";
+            };
+
+            utterance.onend = () => {
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+            };
+
+            utterance.onerror = () => {
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

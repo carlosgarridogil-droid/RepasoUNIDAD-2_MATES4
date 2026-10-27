@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de la Propiedad Conmutativa - 4º Primaria</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Fredoka & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', 'Inter', sans-serif;
+            background-color: #f0f9ff;
+            touch-action: manipulation;
+        }
+
+        /* Trazo grueso personalizado estilo infantil */
+        .thick-border {
+            border: 6px solid #1e293b;
+        }
+
+        .thick-border-md {
+            border: 4px solid #1e293b;
+        }
+
+        /* Sombras estilo Neumorfismo / Comic 3D */
+        .btn-cartoon {
+            box-shadow: 0px 8px 0px #0f172a;
+            transition: all 0.1s ease;
+        }
+
+        .btn-cartoon:active {
+            transform: translateY(6px);
+            box-shadow: 0px 2px 0px #0f172a;
+        }
+
+        /* Inputs estilizados */
+        .input-num {
+            border: 4px solid #334155;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 1rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-num:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.3);
+        }
+
+        .input-correct {
+            background-color: #bbf7d0 !important;
+            border-color: #16a34a !important;
+            color: #14532d !important;
+            box-shadow: 0 0 10px rgba(22, 163, 74, 0.5);
+        }
+
+        .input-incorrect {
+            background-color: #fecaca !important;
+            border-color: #dc2626 !important;
+            color: #7f1d1d !important;
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        /* Animaciones para cambio de pantallas */
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-3 md:p-6 select-none bg-sky-100">
+
+    <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
+    <main class="w-full max-w-4xl bg-white rounded-3xl thick-border p-4 md:p-8 shadow-2xl relative overflow-hidden min-h-[580px] flex flex-col justify-between">
+        
+        <!-- PANTALLA 1: INICIAL / PORTADA -->
+        <section id="screen-start" class="fade-in flex flex-col items-center justify-between h-full py-4 text-center my-auto">
+            <div class="space-y-3">
+                <span class="inline-block bg-amber-300 text-amber-950 font-black px-4 py-1.5 rounded-full text-base md:text-xl thick-border-md tracking-wider uppercase shadow-md">
+                    MATEMÁTICAS 4º PRIMARIA
+                </span>
+                <h1 class="text-3xl md:text-5xl font-black text-sky-900 tracking-wide leading-tight drop-shadow-sm">
+                    Práctica de la propiedad conmutativa
+                </h1>
+            </div>
+
+            <!-- Iconos de matemáticas estilizados con grosor 6 -->
+            <div class="my-8 flex justify-center items-center gap-4 md:gap-8 flex-wrap">
+                <div class="w-24 h-24 md:w-32 md:h-32 bg-amber-200 rounded-3xl thick-border flex items-center justify-center text-amber-600 shadow-lg transform -rotate-6 hover:rotate-0 transition-transform">
+                    <i class="fa-solid fa-plus text-5xl md:text-6xl stroke-black" style="-webkit-text-stroke: 3px #1e293b;"></i>
+                </div>
+                <div class="w-28 h-28 md:w-36 md:h-36 bg-emerald-300 rounded-3xl thick-border flex items-center justify-center text-emerald-700 shadow-xl transform rotate-3 hover:rotate-0 transition-transform">
+                    <i class="fa-solid fa-equals text-6xl md:text-7xl" style="-webkit-text-stroke: 3px #1e293b;"></i>
+                </div>
+                <div class="w-24 h-24 md:w-32 md:h-32 bg-rose-200 rounded-3xl thick-border flex items-center justify-center text-rose-600 shadow-lg transform rotate-6 hover:rotate-0 transition-transform">
+                    <i class="fa-solid fa-calculator text-5xl md:text-6xl" style="-webkit-text-stroke: 3px #1e293b;"></i>
+                </div>
+            </div>
+
+            <p class="text-slate-600 font-semibold text-lg max-w-lg mb-4">
+                ¡Demuestra que sabes cambiar el orden de los sumandos sin alterar el resultado!
+            </p>
+
+            <button id="btn-start" onclick="startPractice()" class="btn-cartoon bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-black text-2xl md:text-3xl px-10 py-4 rounded-2xl thick-border cursor-pointer flex items-center gap-3 mx-auto">
+                <span>¡COMENZAR!</span>
+                <i class="fa-solid fa-circle-play text-3xl"></i>
+            </button>
+        </section>
+
+        <!-- PANTALLA 2: ACTIVIDADES (20 EN TOTAL) -->
+        <section id="screen-activity" class="hidden fade-in flex-col h-full justify-between space-y-4">
+            <!-- Barra Superior: Progreso y Puntuación -->
+            <div class="flex flex-wrap justify-between items-center gap-2 bg-sky-50 p-3 rounded-2xl thick-border-md">
+                <div class="flex items-center gap-2">
+                    <span class="bg-sky-500 text-white font-black px-3 py-1 rounded-xl text-lg thick-border-md" id="activity-counter">
+                        Actividad 1 de 20
+                    </span>
+                </div>
+                <!-- Barra de Progreso Visual -->
+                <div class="flex-1 max-w-xs bg-slate-200 h-6 rounded-full overflow-hidden thick-border-md mx-2">
+                    <div id="progress-bar" class="bg-amber-400 h-full w-0 transition-all duration-300"></div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-emerald-200 text-emerald-900 font-bold px-3 py-1 rounded-xl text-base thick-border-md">
+                        <i class="fa-solid fa-check text-emerald-700"></i> <span id="score-correct">0</span>
+                    </span>
+                    <span class="bg-rose-200 text-rose-900 font-bold px-3 py-1 rounded-xl text-base thick-border-md">
+                        <i class="fa-solid fa-xmark text-rose-700"></i> <span id="score-incorrect">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Área Central del Ejercicio -->
+            <div class="my-auto py-2">
+                <div class="bg-amber-50 rounded-3xl p-4 md:p-6 thick-border shadow-inner">
+                    <h2 class="text-center text-slate-700 font-bold text-lg md:text-xl mb-4">
+                        Aplica la propiedad conmutativa para completar las casillas:
+                    </h2>
+
+                    <!-- Layout Principal del Ejercicio -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                        
+                        <!-- Columna Izquierda: Desglose por pasos -->
+                        <div class="bg-white p-4 rounded-2xl thick-border-md space-y-4 shadow-sm">
+                            <!-- Fila 1: Expresión Original -->
+                            <div class="flex items-center justify-center gap-3 text-2xl md:text-3xl font-black text-slate-800 bg-sky-100 p-3 rounded-xl border-2 border-sky-300">
+                                <span class="text-sky-700">Suma original:</span>
+                                <span id="num-A-display" class="text-indigo-600">49</span>
+                                <span>+</span>
+                                <span id="num-B-display" class="text-indigo-600">7</span>
+                            </div>
+
+                            <!-- Fila 2: A + B = Resultado -->
+                            <div class="flex items-center justify-center gap-2 text-xl md:text-2xl font-bold flex-wrap">
+                                <span id="label-A1" class="w-14 text-center">49</span>
+                                <span>+</span>
+                                <span id="label-B1" class="w-14 text-center">7</span>
+                                <span>=</span>
+                                <input type="number" id="input-sum1" class="input-num w-24 h-12" placeholder="?" min="0" />
+                            </div>
+
+                            <!-- Fila 3: B + A = Resultado -->
+                            <div class="flex items-center justify-center gap-2 text-xl md:text-2xl font-bold flex-wrap">
+                                <input type="number" id="input-B2" class="input-num w-16 h-12" placeholder="B" min="0" />
+                                <span>+</span>
+                                <input type="number" id="input-A2" class="input-num w-16 h-12" placeholder="A" min="0" />
+                                <span>=</span>
+                                <input type="number" id="input-sum2" class="input-num w-24 h-12" placeholder="?" min="0" />
+                            </div>
+                        </div>
+
+                        <!-- Columna Derecha: Igualdad Completa -->
+                        <div class="bg-white p-4 rounded-2xl thick-border-md space-y-4 shadow-sm flex flex-col justify-center items-center">
+                            <h3 class="font-extrabold text-slate-700 text-base md:text-lg text-center">
+                                Expresión conmutativa completa:
+                            </h3>
+                            
+                            <div class="flex flex-wrap items-center justify-center gap-2 text-lg md:text-xl font-bold bg-amber-100 p-4 rounded-2xl border-2 border-amber-300 w-full">
+                                <input type="number" id="input-eq-A1" class="input-num w-16 h-11" placeholder="A" min="0" />
+                                <span>+</span>
+                                <input type="number" id="input-eq-B1" class="input-num w-16 h-11" placeholder="B" min="0" />
+                                <span>=</span>
+                                <input type="number" id="input-eq-B2" class="input-num w-16 h-11" placeholder="B" min="0" />
+                                <span>+</span>
+                                <input type="number" id="input-eq-A2" class="input-num w-16 h-11" placeholder="A" min="0" />
+                                <span>=</span>
+                                <input type="number" id="input-eq-res" class="input-num w-24 h-11" placeholder="Total" min="0" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Interactivo (Mensajes tras comprobar) -->
+            <div id="feedback-message" class="hidden text-center p-3 rounded-2xl thick-border-md font-extrabold text-lg md:text-xl">
+            </div>
+
+            <!-- Botones de Acción (Ayuda, Comprobar, Siguiente) -->
+            <div class="flex flex-wrap justify-between items-center gap-4 pt-2">
+                <button onclick="openHelpModal()" class="btn-cartoon bg-sky-400 hover:bg-sky-500 text-slate-900 font-black px-5 py-3 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-lg">
+                    <i class="fa-solid fa-lightbulb text-amber-300 text-2xl"></i>
+                    <span>AYUDA</span>
+                </button>
+
+                <div class="flex items-center gap-3">
+                    <button id="btn-check" onclick="checkAnswer()" class="btn-cartoon bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-black px-8 py-3 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-xl">
+                        <span>COMPROBAR</span>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </button>
+
+                    <button id="btn-next" onclick="nextActivity()" class="hidden btn-cartoon bg-amber-400 hover:bg-amber-500 text-slate-900 font-black px-8 py-3 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-xl">
+                        <span>SIGUIENTE</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: INFORME FINAL -->
+        <section id="screen-report" class="hidden fade-in flex-col items-center justify-between h-full py-4 text-center my-auto">
+            <div class="space-y-2">
+                <span class="bg-amber-300 text-amber-950 font-black px-4 py-1 rounded-full text-lg thick-border-md uppercase">
+                    ¡MISIÓN CUMPLIDA!
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black text-sky-900">
+                    Informe Final de Resultados
+                </h2>
+            </div>
+
+            <!-- Medalla o Trofeo según puntuación -->
+            <div class="my-6">
+                <div id="badge-container" class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3">
+                    <i id="badge-icon" class="fa-solid fa-trophy text-6xl md:text-7xl"></i>
+                </div>
+                <p id="final-feedback-text" class="text-2xl font-black text-slate-800"></p>
+            </div>
+
+            <!-- Resumen numérico -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-lg mb-6">
+                <div class="bg-emerald-100 p-4 rounded-2xl thick-border-md">
+                    <span class="block text-slate-600 font-bold text-sm">Aciertos</span>
+                    <span id="final-correct" class="text-3xl md:text-4xl font-black text-emerald-700">0</span>
+                </div>
+                <div class="bg-rose-100 p-4 rounded-2xl thick-border-md">
+                    <span class="block text-slate-600 font-bold text-sm">Errores</span>
+                    <span id="final-incorrect" class="text-3xl md:text-4xl font-black text-rose-700">0</span>
+                </div>
+                <div class="bg-sky-100 p-4 rounded-2xl thick-border-md col-span-2 md:col-span-1">
+                    <span class="block text-slate-600 font-bold text-sm">Precisión</span>
+                    <span id="final-percentage" class="text-3xl md:text-4xl font-black text-sky-700">0%</span>
+                </div>
+            </div>
+
+            <button onclick="restartApp()" class="btn-cartoon bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-2xl px-8 py-4 rounded-2xl thick-border cursor-pointer flex items-center gap-3">
+                <i class="fa-solid fa-rotate-right text-2xl"></i>
+                <span>VOLVER A PRACTICAR</span>
+            </button>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE AYUDA (CON AUDIO TTS) -->
+    <div id="modal-help" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl thick-border p-6 max-w-lg w-full shadow-2xl space-y-4 fade-in relative">
+            
+            <div class="flex justify-between items-center border-b-4 border-slate-200 pb-3">
+                <h3 class="text-2xl font-black text-sky-900 flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-amber-500"></i>
+                    Propiedad Conmutativa
+                </h3>
+                <button onclick="closeHelpModal()" class="text-slate-400 hover:text-slate-700 text-3xl font-black">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Explicación Pedagógica -->
+            <div class="space-y-3 text-slate-700 text-base md:text-lg font-semibold leading-relaxed">
+                <p bg-amber-50 p-3 rounded-xl>
+                    La <strong class="text-sky-700">propiedad conmutativa</strong> nos dice que:
+                </p>
+                <div class="bg-amber-100 p-3 rounded-2xl border-2 border-amber-300 text-center font-extrabold text-amber-950">
+                    "El orden de los sumandos no altera el resultado final."
+                </div>
+                <p>
+                    <strong>Ejemplo práctico:</strong><br>
+                    Si tienes <span class="text-indigo-600 font-bold">49 + 7 = 56</span>,<br>
+                    al cambiar el orden <span class="text-indigo-600 font-bold">7 + 49 = 56</span>,<br>
+                    ¡el resultado sigue siendo exactamente el mismo!
+                </p>
+            </div>
+
+            <!-- Botón de Audio Sintetizado -->
+            <div class="bg-sky-50 p-4 rounded-2xl thick-border-md flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-sky-900 font-bold">
+                    <i class="fa-solid fa-volume-high text-2xl text-sky-600"></i>
+                    <span>Escuchar explicación</span>
+                </div>
+                <button id="btn-speak" onclick="speakHelpText()" class="btn-cartoon bg-sky-400 hover:bg-sky-500 text-slate-900 font-black px-4 py-2 rounded-xl thick-border-md flex items-center gap-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span id="speak-btn-text">Reproducir</span>
+                </button>
+            </div>
+
+            <button onclick="closeHelpModal()" class="w-full btn-cartoon bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-xl py-3 rounded-2xl thick-border">
+                ¡Entendido, a seguir!
+            </button>
+        </div>
+    </div>
+
+    <!-- LÓGICA EN JAVASCRIPT -->
+    <script>
+        // Estado de la aplicación
+        const TOTAL_ACTIVITIES = 20;
+        let currentActivityIndex = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let activitiesData = [];
+        let isEvaluated = false;
+
+        // Elementos DOM
+        const screenStart = document.getElementById('screen-start');
+        const screenActivity = document.getElementById('screen-activity');
+        const screenReport = document.getElementById('screen-report');
+        const modalHelp = document.getElementById('modal-help');
+
+        // Generador de actividades aleatorias adaptadas a 4º de primaria
+        function generateActivities() {
+            const list = [];
+            // Forzamos la primera actividad como 49 + 7 según el prompt
+            list.push({ numA: 49, numB: 7 });
+
+            for (let i = 1; i < TOTAL_ACTIVITIES; i++) {
+                // Números entre 5 y 99 significativos para 4º primaria
+                let a = Math.floor(Math.random() * 85) + 12;
+                let b = Math.floor(Math.random() * 45) + 6;
+                // Evitar que sean iguales para ver claro el cambio de orden
+                if (a === b) b += 3;
+                list.push({ numA: a, numB: b });
+            }
+            return list;
+        }
+
+        // Iniciar la práctica
+        function startPractice() {
+            activitiesData = generateActivities();
+            currentActivityIndex = 0;
+            correctCount = 0;
+            incorrectCount = 0;
+
+            screenStart.classList.add('hidden');
+            screenReport.classList.add('hidden');
+            screenActivity.classList.remove('hidden');
+            screenActivity.classList.add('flex');
+
+            loadActivity(currentActivityIndex);
+        }
+
+        // Cargar una actividad específica
+        function loadActivity(index) {
+            isEvaluated = false;
+            const data = activitiesData[index];
+            const sumResult = data.numA + data.numB;
+
+            // Actualizar contadores y progreso
+            document.getElementById('activity-counter').innerText = `Actividad ${index + 1} de ${TOTAL_ACTIVITIES}`;
+            document.getElementById('score-correct').innerText = correctCount;
+            document.getElementById('score-incorrect').innerText = incorrectCount;
+            
+            const progressPercent = ((index) / TOTAL_ACTIVITIES) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            // Resetear Mensaje Feedback y Botones
+            const feedbackEl = document.getElementById('feedback-message');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = "hidden text-center p-3 rounded-2xl thick-border-md font-extrabold text-lg md:text-xl";
+            
+            document.getElementById('btn-check').classList.remove('hidden');
+            document.getElementById('btn-next').classList.add('hidden');
+
+            // Cargar etiquetas estáticas de referencia
+            document.getElementById('num-A-display').innerText = data.numA;
+            document.getElementById('num-B-display').innerText = data.numB;
+            document.getElementById('label-A1').innerText = data.numA;
+            document.getElementById('label-B1').innerText = data.numB;
+
+            // Obtener todos los inputs
+            const inputs = getInputs();
+
+            // Limpiar valores y clases estilizadas
+            inputs.all.forEach(input => {
+                input.value = '';
+                input.className = 'input-num ' + (input.id.includes('sum') || input.id.includes('res') ? 'w-24 h-12' : 'w-16 h-12');
+                if (input.id.startsWith('input-eq')) {
+                    input.className = 'input-num ' + (input.id.includes('res') ? 'w-24 h-11' : 'w-16 h-11');
+                }
+                input.disabled = false;
+            });
+        }
+
+        // Función para seleccionar las referencias a todos los inputs
+        function getInputs() {
+            return {
+                sum1: document.getElementById('input-sum1'),
+                B2: document.getElementById('input-B2'),
+                A2: document.getElementById('input-A2'),
+                sum2: document.getElementById('input-sum2'),
+                eqA1: document.getElementById('input-eq-A1'),
+                eqB1: document.getElementById('input-eq-B1'),
+                eqB2: document.getElementById('input-eq-B2'),
+                eqA2: document.getElementById('input-eq-A2'),
+                eqRes: document.getElementById('input-eq-res'),
+                get all() {
+                    return [this.sum1, this.B2, this.A2, this.sum2, this.eqA1, this.eqB1, this.eqB2, this.eqA2, this.eqRes];
+                }
+            };
+        }
+
+        // Comprobar respuestas
+        function checkAnswer() {
+            if (isEvaluated) return;
+
+            const data = activitiesData[currentActivityIndex];
+            const correctSum = data.numA + data.numB;
+            const inputs = getInputs();
+
+            // Mapeo de soluciones esperadas
+            const targets = [
+                { input: inputs.sum1, expected: correctSum },
+                { input: inputs.B2, expected: data.numB },
+                { input: inputs.A2, expected: data.numA },
+                { input: inputs.sum2, expected: correctSum },
+                { input: inputs.eqA1, expected: data.numA },
+                { input: inputs.eqB1, expected: data.numB },
+                { input: inputs.eqB2, expected: data.numB },
+                { input: inputs.eqA2, expected: data.numA },
+                { input: inputs.eqRes, expected: correctSum }
+            ];
+
+            let allCorrect = true;
+
+            targets.forEach(item => {
+                const val = parseInt(item.input.value, 10);
+                if (val === item.expected) {
+                    item.input.classList.add('input-correct');
+                } else {
+                    item.input.classList.add('input-incorrect');
+                    allCorrect = false;
+                }
+                item.input.disabled = true;
+            });
+
+            isEvaluated = true;
+
+            // Feedback visual y contadores
+            const feedbackEl = document.getElementById('feedback-message');
+            feedbackEl.classList.remove('hidden');
+
+            if (allCorrect) {
+                correctCount++;
+                feedbackEl.classList.add('bg-emerald-100', 'text-emerald-900', 'border-emerald-400');
+                feedbackEl.innerHTML = '<i class="fa-solid fa-star text-amber-500 mr-2"></i> ¡Excelente! Has aplicado perfectamente la propiedad conmutativa. ¡Sigue así!';
+            } else {
+                incorrectCount++;
+                feedbackEl.classList.add('bg-rose-100', 'text-rose-900', 'border-rose-400');
+                feedbackEl.innerHTML = '<i class="fa-solid fa-circle-exclamation text-rose-600 mr-2"></i> ¡Casi! Revisa las casillas en rojo. Recuerda cambiar el orden de los sumandos.';
+            }
+
+            document.getElementById('score-correct').innerText = correctCount;
+            document.getElementById('score-incorrect').innerText = incorrectCount;
+
+            // Ocultar Comprobar y Mostrar Siguiente
+            document.getElementById('btn-check').classList.add('hidden');
+            document.getElementById('btn-next').classList.remove('hidden');
+        }
+
+        // Pasar a la siguiente actividad o mostrar informe
+        function nextActivity() {
+            currentActivityIndex++;
+            if (currentActivityIndex < TOTAL_ACTIVITIES) {
+                loadActivity(currentActivityIndex);
+            } else {
+                showReport();
+            }
+        }
+
+        // Pantalla Final / Informe
+        function showReport() {
+            screenActivity.classList.add('hidden');
+            screenActivity.classList.remove('flex');
+            screenReport.classList.remove('hidden');
+            screenReport.classList.add('flex');
+
+            const total = TOTAL_ACTIVITIES;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            document.getElementById('final-correct').innerText = correctCount;
+            document.getElementById('final-incorrect').innerText = incorrectCount;
+            document.getElementById('final-percentage').innerText = `${percentage}%`;
+
+            const badgeContainer = document.getElementById('badge-container');
+            const badgeIcon = document.getElementById('badge-icon');
+            const feedbackText = document.getElementById('final-feedback-text');
+
+            if (percentage >= 90) {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-amber-300 text-amber-800";
+                badgeIcon.className = "fa-solid fa-trophy text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Supercampeón/a de las Matemáticas! 🏆";
+            } else if (percentage >= 70) {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-emerald-300 text-emerald-800";
+                badgeIcon.className = "fa-solid fa-medal text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Buen trabajo! Has dominado la conmutativa. 🌟";
+            } else {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-sky-300 text-sky-800";
+                badgeIcon.className = "fa-solid fa-award text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Buen intento! Con un poco más de práctica serás imparable. 💪";
+            }
+        }
+
+        // Reiniciar Aplicación
+        function restartApp() {
+            screenReport.classList.add('hidden');
+            screenReport.classList.remove('flex');
+            screenStart.classList.remove('hidden');
+            screenStart.classList.add('flex');
+        }
+
+        // Funciones del Modal de Ayuda y Voz TTS (Web Speech API)
+        function openHelpModal() {
+            modalHelp.classList.remove('hidden');
+        }
+
+        function closeHelpModal() {
+            modalHelp.classList.add('hidden');
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            document.getElementById('speak-btn-text').innerText = "Reproducir";
+        }
+
+        function speakHelpText() {
+            if (!('speechSynthesis' in window)) {
+                alert("Tu navegador no soporta la lectura por voz.");
+                return;
+            }
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+                return;
+            }
+
+            const textToSpeak = "La propiedad conmutativa nos dice que el orden de los sumandos no altera el resultado final. Por ejemplo: si tienes 49 más 7 es igual a 56, al cambiar el orden 7 más 49 sigue siendo igual a 56.";
+            
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9; // Velocidad pausada adecuada para educación primaria
+
+            utterance.onstart = () => {
+                document.getElementById('speak-btn-text').innerText = "Detener";
+            };
+
+            utterance.onend = () => {
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+            };
+
+            utterance.onerror = () => {
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

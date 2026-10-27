@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Operaciones Combinadas - 4º Primaria</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Fredoka & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', 'Inter', sans-serif;
+            background-color: #f0f9ff;
+            touch-action: manipulation;
+        }
+
+        /* Trazo grueso personalizado estilo infantil */
+        .thick-border {
+            border: 6px solid #0f172a;
+        }
+
+        .thick-border-md {
+            border: 4px solid #0f172a;
+        }
+
+        /* Sombras estilo Comic 3D */
+        .btn-cartoon {
+            box-shadow: 0px 8px 0px #0f172a;
+            transition: all 0.1s ease;
+        }
+
+        .btn-cartoon:active {
+            transform: translateY(6px);
+            box-shadow: 0px 2px 0px #0f172a;
+        }
+
+        /* Inputs estilizados */
+        .input-num {
+            border: 4px solid #334155;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 1rem;
+            outline: none;
+            transition: all 0.2s ease;
+            background-color: #ffffff;
+        }
+
+        .input-num:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.3);
+        }
+
+        .input-correct {
+            background-color: #bbf7d0 !important;
+            border-color: #16a34a !important;
+            color: #14532d !important;
+            box-shadow: 0 0 10px rgba(22, 163, 74, 0.5);
+        }
+
+        .input-incorrect {
+            background-color: #fecaca !important;
+            border-color: #dc2626 !important;
+            color: #7f1d1d !important;
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        /* Transiciones suaves de pantalla */
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-2 md:p-6 select-none bg-indigo-100">
+
+    <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
+    <main class="w-full max-w-4xl bg-white rounded-3xl thick-border p-4 md:p-8 shadow-2xl relative overflow-hidden min-h-[620px] flex flex-col justify-between">
+        
+        <!-- PANTALLA 1: INICIAL / PORTADA -->
+        <section id="screen-start" class="fade-in flex flex-col items-center justify-between h-full py-4 text-center my-auto">
+            <div class="space-y-3">
+                <span class="inline-block bg-amber-300 text-amber-950 font-black px-4 py-1.5 rounded-full text-base md:text-xl thick-border-md tracking-wider uppercase shadow-md">
+                    MATEMÁTICAS 4º PRIMARIA
+                </span>
+                <h1 class="text-3xl md:text-5xl font-black text-indigo-950 tracking-wide leading-tight drop-shadow-sm">
+                    Práctica de Operaciones Combinadas
+                </h1>
+            </div>
+
+            <!-- Iconos de matemáticas estilizados con grosor 6 -->
+            <div class="my-8 flex justify-center items-center gap-4 md:gap-8 flex-wrap">
+                <div class="w-24 h-24 md:w-32 md:h-32 bg-indigo-200 rounded-3xl thick-border flex flex-col items-center justify-center text-indigo-900 shadow-lg transform -rotate-6 hover:rotate-0 transition-transform">
+                    <span class="text-4xl md:text-6xl font-black">( &nbsp; )</span>
+                </div>
+                <div class="w-28 h-28 md:w-36 md:h-36 bg-amber-300 rounded-3xl thick-border flex flex-col items-center justify-center text-amber-950 shadow-xl transform rotate-2 hover:rotate-0 transition-transform">
+                    <i class="fa-solid fa-layer-group text-4xl md:text-5xl"></i>
+                    <span class="text-xs md:text-sm font-black mt-1">JERARQUÍA</span>
+                </div>
+                <div class="w-24 h-24 md:w-32 md:h-32 bg-emerald-200 rounded-3xl thick-border flex flex-col items-center justify-center text-emerald-900 shadow-lg transform rotate-6 hover:rotate-0 transition-transform">
+                    <div class="flex items-center gap-2 text-3xl md:text-4xl font-black">
+                        <span>+</span>
+                        <span>-</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-slate-600 font-semibold text-lg max-w-lg mb-4">
+                Aprende a resolver operaciones combinadas con paréntesis paso a paso guiándote por la jerarquía.
+            </p>
+
+            <button id="btn-start" onclick="startPractice()" class="btn-cartoon bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-black text-2xl md:text-3xl px-10 py-4 rounded-2xl thick-border cursor-pointer flex items-center gap-3 mx-auto">
+                <span>¡COMENZAR!</span>
+                <i class="fa-solid fa-circle-play text-3xl"></i>
+            </button>
+        </section>
+
+        <!-- PANTALLA 2: ACTIVIDADES (10 EN TOTAL) -->
+        <section id="screen-activity" class="hidden fade-in flex-col h-full justify-between space-y-4">
+            <!-- Barra Superior: Progreso y Puntuación -->
+            <div class="flex flex-wrap justify-between items-center gap-2 bg-indigo-50 p-3 rounded-2xl thick-border-md">
+                <div class="flex items-center gap-2">
+                    <span class="bg-indigo-600 text-white font-black px-3 py-1 rounded-xl text-lg thick-border-md" id="activity-counter">
+                        Actividad 1 de 10
+                    </span>
+                </div>
+                <!-- Barra de Progreso Visual -->
+                <div class="flex-1 max-w-xs bg-slate-200 h-6 rounded-full overflow-hidden thick-border-md mx-2">
+                    <div id="progress-bar" class="bg-amber-400 h-full w-0 transition-all duration-300"></div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="bg-emerald-200 text-emerald-900 font-bold px-3 py-1 rounded-xl text-base thick-border-md">
+                        <i class="fa-solid fa-check text-emerald-700"></i> <span id="score-correct">0</span>
+                    </span>
+                    <span class="bg-rose-200 text-rose-900 font-bold px-3 py-1 rounded-xl text-base thick-border-md">
+                        <i class="fa-solid fa-xmark text-rose-700"></i> <span id="score-incorrect">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Área Central del Ejercicio -->
+            <div class="my-auto py-2">
+                <div class="bg-slate-50 rounded-3xl p-4 md:p-8 thick-border shadow-inner space-y-5">
+                    
+                    <div class="text-center space-y-1">
+                        <span class="text-indigo-900 font-black text-lg md:text-xl uppercase tracking-wide">
+                            Resuelve paso a paso la operación combinada:
+                        </span>
+                    </div>
+
+                    <!-- Enunciado Principal de la Operación -->
+                    <div class="flex items-center justify-center text-2xl md:text-4xl font-black text-slate-800 bg-amber-100 p-4 rounded-2xl border-4 border-amber-300 w-fit mx-auto px-6 shadow-sm">
+                        <span id="expression-display" class="tracking-wider text-indigo-950"></span>
+                    </div>
+
+                    <!-- PASO 1: Resolver Paréntesis -->
+                    <div class="space-y-2 text-center">
+                        <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-wider block">
+                            Paso 1: Resuelve los paréntesis y mantén el resto de números y signos
+                        </span>
+                        <div id="step1-container" class="flex items-center justify-center gap-2 md:gap-3 text-xl md:text-3xl font-black flex-wrap">
+                            <!-- Los inputs e indicativos del paso 1 se renderizan dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Flecha hacia Paso Final -->
+                    <div class="text-center text-slate-400 text-xl font-black my-1">
+                        <i class="fa-solid fa-arrow-down-long"></i>
+                    </div>
+
+                    <!-- PASO 2: Resultado Final -->
+                    <div class="flex flex-col items-center justify-center gap-1">
+                        <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-wider">
+                            Paso 2: Resultado Final
+                        </span>
+                        <div class="flex items-center gap-3 text-2xl md:text-3xl font-black">
+                            <span>=</span>
+                            <input type="number" id="input-final-result" class="input-num w-28 md:w-36 h-14 md:h-16" placeholder="?" min="0" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Mensaje de Retroalimentación -->
+            <div id="feedback-message" class="hidden text-center p-3 rounded-2xl thick-border-md font-extrabold text-base md:text-lg">
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="flex flex-wrap justify-between items-center gap-3 pt-1">
+                <button onclick="openHelpModal()" class="btn-cartoon bg-sky-400 hover:bg-sky-500 text-slate-900 font-black px-4 py-2.5 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-base md:text-lg">
+                    <i class="fa-solid fa-lightbulb text-amber-300 text-xl"></i>
+                    <span>VER JERARQUÍA</span>
+                </button>
+
+                <div class="flex items-center gap-3">
+                    <button id="btn-check" onclick="checkAnswer()" class="btn-cartoon bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-black px-7 py-2.5 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-lg md:text-xl">
+                        <span>COMPROBAR</span>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </button>
+
+                    <button id="btn-next" onclick="nextActivity()" class="hidden btn-cartoon bg-amber-400 hover:bg-amber-500 text-slate-900 font-black px-7 py-2.5 rounded-2xl thick-border cursor-pointer flex items-center gap-2 text-lg md:text-xl">
+                        <span>SIGUIENTE</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: INFORME FINAL -->
+        <section id="screen-report" class="hidden fade-in flex-col items-center justify-between h-full py-4 text-center my-auto">
+            <div class="space-y-2">
+                <span class="bg-amber-300 text-amber-950 font-black px-4 py-1 rounded-full text-lg thick-border-md uppercase">
+                    ¡PRÁCTICA FINALIZADA!
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black text-indigo-950">
+                    Informe Final de Resultados
+                </h2>
+            </div>
+
+            <!-- Medalla o Trofeo según puntuación -->
+            <div class="my-6">
+                <div id="badge-container" class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3">
+                    <i id="badge-icon" class="fa-solid fa-trophy text-6xl md:text-7xl"></i>
+                </div>
+                <p id="final-feedback-text" class="text-2xl font-black text-slate-800"></p>
+            </div>
+
+            <!-- Resumen numérico -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-lg mb-6">
+                <div class="bg-emerald-100 p-4 rounded-2xl thick-border-md">
+                    <span class="block text-slate-600 font-bold text-sm">Aciertos</span>
+                    <span id="final-correct" class="text-3xl md:text-4xl font-black text-emerald-700">0</span>
+                </div>
+                <div class="bg-rose-100 p-4 rounded-2xl thick-border-md">
+                    <span class="block text-slate-600 font-bold text-sm">Errores</span>
+                    <span id="final-incorrect" class="text-3xl md:text-4xl font-black text-rose-700">0</span>
+                </div>
+                <div class="bg-indigo-100 p-4 rounded-2xl thick-border-md col-span-2 md:col-span-1">
+                    <span class="block text-slate-600 font-bold text-sm">Precisión</span>
+                    <span id="final-percentage" class="text-3xl md:text-4xl font-black text-indigo-700">0%</span>
+                </div>
+            </div>
+
+            <button onclick="restartApp()" class="btn-cartoon bg-amber-400 hover:bg-amber-500 text-slate-900 font-black text-2xl px-8 py-4 rounded-2xl thick-border cursor-pointer flex items-center gap-3">
+                <i class="fa-solid fa-rotate-right text-2xl"></i>
+                <span>REINICIAR PRÁCTICA</span>
+            </button>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE AYUDA (JERARQUÍA DE OPERACIONES + SÍNTESIS DE VOZ) -->
+    <div id="modal-help" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl thick-border p-6 max-w-xl w-full shadow-2xl space-y-4 fade-in relative max-h-[90vh] overflow-y-auto">
+            
+            <div class="flex justify-between items-center border-b-4 border-slate-200 pb-3">
+                <h3 class="text-2xl font-black text-indigo-950 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-amber-500"></i>
+                    Jerarquía de Operaciones
+                </h3>
+                <button onclick="closeHelpModal()" class="text-slate-400 hover:text-slate-700 text-3xl font-black">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Explicación Didáctica -->
+            <div class="space-y-3 text-slate-700 text-sm md:text-base font-semibold leading-relaxed">
+                <div class="bg-indigo-50 p-4 rounded-2xl border-2 border-indigo-200 space-y-2">
+                    <p class="font-extrabold text-indigo-950 text-base">¿Qué orden debemos seguir?</p>
+                    <ol class="list-decimal list-inside space-y-1 font-bold">
+                        <li class="text-indigo-900">1º Resolver las operaciones que están dentro de los <span class="bg-amber-200 px-2 py-0.5 rounded-lg border border-amber-400">PARÉNTESIS ( )</span>.</li>
+                        <li class="text-indigo-900">2º Resolver las sumas y restas en orden, de <span class="bg-indigo-200 px-2 py-0.5 rounded-lg border border-indigo-300">IZQUIERDA a DERECHA</span>.</li>
+                    </ol>
+                </div>
+
+                <!-- Ejemplo Práctico -->
+                <div class="bg-amber-50 p-3 rounded-2xl border-2 border-amber-200">
+                    <p class="font-black text-amber-900 text-sm mb-1">💡 Ejemplo guiado:</p>
+                    <p class="font-mono text-base font-bold text-slate-800"> (8 - 4) - 4 + (5 - 3)</p>
+                    <p class="text-xs md:text-sm text-slate-600 mt-1">
+                        • Paso 1 (Resolver paréntesis): <br>
+                        &nbsp;&nbsp;&nbsp; (8 - 4) = <strong>4</strong> &nbsp;&nbsp;|&nbsp;&nbsp; (5 - 3) = <strong>2</strong> <br>
+                        &nbsp;&nbsp;&nbsp; La expresión queda: <strong>4 - 4 + 2</strong><br>
+                        • Paso 2 (De izquierda a derecha): <br>
+                        &nbsp;&nbsp;&nbsp; 4 - 4 = 0 &nbsp;➔&nbsp; 0 + 2 = <strong>2</strong>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Reproductor de Voz sintetizada -->
+            <div class="bg-sky-50 p-4 rounded-2xl thick-border-md flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-sky-950 font-bold text-sm md:text-base">
+                    <i class="fa-solid fa-volume-high text-2xl text-sky-600"></i>
+                    <span>Escuchar explicación verbal</span>
+                </div>
+                <button id="btn-speak" onclick="speakHelpText()" class="btn-cartoon bg-sky-400 hover:bg-sky-500 text-slate-900 font-black px-4 py-2 rounded-xl thick-border-md flex items-center gap-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span id="speak-btn-text">Reproducir</span>
+                </button>
+            </div>
+
+            <button onclick="closeHelpModal()" class="w-full btn-cartoon bg-emerald-400 hover:bg-emerald-500 text-slate-900 font-black text-xl py-3 rounded-2xl thick-border">
+                ¡Entendido, a practicar!
+            </button>
+        </div>
+    </div>
+
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        const TOTAL_ACTIVITIES = 10;
+        let currentActivityIndex = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let isEvaluated = false;
+
+        // Lista exacta de las 10 actividades preparadas y distribuidas en 3 categorías
+        const activitiesData = [
+            // CATEGORÍA 1: SIN PARÉNTESIS (5 términos) - Preguntas 1 y 2
+            {
+                id: 1,
+                display: "15 - 4 + 8 - 2 + 5",
+                stepText: "Paso 1: Completa los números en orden de izquierda a derecha",
+                tokensPaso1: [
+                    { type: "input", correct: 15, hint: "15" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 4, hint: "4" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 8, hint: "8" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 2, hint: "2" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 5, hint: "5" }
+                ],
+                finalResult: 22
+            },
+            {
+                id: 2,
+                display: "24 + 10 - 6 - 8 + 3",
+                stepText: "Paso 1: Completa los números en orden de izquierda a derecha",
+                tokensPaso1: [
+                    { type: "input", correct: 24, hint: "24" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 10, hint: "10" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 6, hint: "6" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 8, hint: "8" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 3, hint: "3" }
+                ],
+                finalResult: 23
+            },
+
+            // CATEGORÍA 2: UN SOLO PARÉNTESIS (4 o 5 términos) - Preguntas 3 a 6
+            {
+                id: 3,
+                display: "18 - (6 + 4) + 9 - 3",
+                stepText: "Paso 1: Resuelve el paréntesis (6 + 4) y mantén el resto de números",
+                tokensPaso1: [
+                    { type: "input", correct: 18, hint: "18" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 10, hint: "6+4" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 9, hint: "9" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 3, hint: "3" }
+                ],
+                finalResult: 24
+            },
+            {
+                id: 4,
+                display: "(15 - 7) + 12 - 5 + 4",
+                stepText: "Paso 1: Resuelve el paréntesis (15 - 7) y mantén el resto de números",
+                tokensPaso1: [
+                    { type: "input", correct: 8, hint: "15-7" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 12, hint: "12" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 5, hint: "5" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 4, hint: "4" }
+                ],
+                finalResult: 19
+            },
+            {
+                id: 5,
+                display: "35 - 10 + (14 - 8) - 6",
+                stepText: "Paso 1: Resuelve el paréntesis (14 - 8) y mantén el resto de números",
+                tokensPaso1: [
+                    { type: "input", correct: 35, hint: "35" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 10, hint: "10" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 6, hint: "14-8" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 6, hint: "6" }
+                ],
+                finalResult: 25
+            },
+            {
+                id: 6,
+                display: "20 + (12 - 5) - 8 + 4",
+                stepText: "Paso 1: Resuelve el paréntesis (12 - 5) y mantén el resto de números",
+                tokensPaso1: [
+                    { type: "input", correct: 20, hint: "20" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 7, hint: "12-5" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 8, hint: "8" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 4, hint: "4" }
+                ],
+                finalResult: 23
+            },
+
+            // CATEGORÍA 3: DOS PARÉNTESIS (4 a 5 términos) - Preguntas 7 a 10
+            {
+                id: 7,
+                display: "(8 - 4) - 4 + (5 - 3)",
+                stepText: "Paso 1: Resuelve los dos paréntesis (8-4) y (5-3)",
+                tokensPaso1: [
+                    { type: "input", correct: 4, hint: "8-4" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 4, hint: "4" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 2, hint: "5-3" }
+                ],
+                finalResult: 2
+            },
+            {
+                id: 8,
+                display: "(25 - 10) + 6 - (8 + 3)",
+                stepText: "Paso 1: Resuelve los dos paréntesis (25-10) y (8+3)",
+                tokensPaso1: [
+                    { type: "input", correct: 15, hint: "25-10" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 6, hint: "6" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 11, hint: "8+3" }
+                ],
+                finalResult: 10
+            },
+            {
+                id: 9,
+                display: "(16 + 9) - (12 - 4) + 7",
+                stepText: "Paso 1: Resuelve los dos paréntesis (16+9) y (12-4)",
+                tokensPaso1: [
+                    { type: "input", correct: 25, hint: "16+9" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 8, hint: "12-4" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 7, hint: "7" }
+                ],
+                finalResult: 24
+            },
+            {
+                id: 10,
+                display: "(30 - 15) + (18 - 9) - 10",
+                stepText: "Paso 1: Resuelve los dos paréntesis (30-15) y (18-9)",
+                tokensPaso1: [
+                    { type: "input", correct: 15, hint: "30-15" },
+                    { type: "text", val: "+" },
+                    { type: "input", correct: 9, hint: "18-9" },
+                    { type: "text", val: "-" },
+                    { type: "input", correct: 10, hint: "10" }
+                ],
+                finalResult: 14
+            }
+        ];
+
+        // Elementos DOM
+        const screenStart = document.getElementById('screen-start');
+        const screenActivity = document.getElementById('screen-activity');
+        const screenReport = document.getElementById('screen-report');
+        const modalHelp = document.getElementById('modal-help');
+
+        // Iniciar la práctica
+        function startPractice() {
+            currentActivityIndex = 0;
+            correctCount = 0;
+            incorrectCount = 0;
+
+            screenStart.classList.add('hidden');
+            screenReport.classList.add('hidden');
+            screenActivity.classList.remove('hidden');
+            screenActivity.classList.add('flex');
+
+            loadActivity(currentActivityIndex);
+        }
+
+        // Cargar actividad
+        function loadActivity(index) {
+            isEvaluated = false;
+            const data = activitiesData[index];
+
+            // Actualizar contadores y barra de progreso
+            document.getElementById('activity-counter').innerText = `Actividad ${index + 1} de ${TOTAL_ACTIVITIES}`;
+            document.getElementById('score-correct').innerText = correctCount;
+            document.getElementById('score-incorrect').innerText = incorrectCount;
+
+            const progressPercent = (index / TOTAL_ACTIVITIES) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            // Renderizar expresión principal
+            document.getElementById('expression-display').innerText = data.display;
+
+            // Renderizar Paso 1 (Generar casillas y operadores)
+            const container1 = document.getElementById('step1-container');
+            container1.innerHTML = '';
+
+            data.tokensPaso1.forEach((token, idx) => {
+                if (token.type === 'input') {
+                    const inp = document.createElement('input');
+                    inp.type = 'number';
+                    inp.id = `step1-input-${idx}`;
+                    inp.dataset.correct = token.correct;
+                    inp.className = 'input-num w-16 md:w-24 h-12 md:h-14 text-lg md:text-2xl';
+                    inp.placeholder = '?';
+                    inp.min = '0';
+                    container1.appendChild(inp);
+                } else {
+                    const span = document.createElement('span');
+                    span.className = 'text-slate-800 text-xl md:text-2xl font-black px-0.5';
+                    span.innerText = token.val;
+                    container1.appendChild(span);
+                }
+            });
+
+            // Resetear Paso 2 (Resultado Final)
+            const inputFinal = document.getElementById('input-final-result');
+            inputFinal.value = '';
+            inputFinal.className = 'input-num w-28 md:w-36 h-14 md:h-16';
+            inputFinal.disabled = false;
+
+            // Resetear Feedback y Botones
+            const feedbackEl = document.getElementById('feedback-message');
+            feedbackEl.classList.add('hidden');
+            feedbackEl.className = 'hidden text-center p-3 rounded-2xl thick-border-md font-extrabold text-base md:text-lg';
+
+            document.getElementById('btn-check').classList.remove('hidden');
+            document.getElementById('btn-next').classList.add('hidden');
+        }
+
+        // Comprobar respuestas
+        function checkAnswer() {
+            if (isEvaluated) return;
+
+            const data = activitiesData[currentActivityIndex];
+            let allCorrect = true;
+
+            // Validar entradas de Paso 1
+            data.tokensPaso1.forEach((token, idx) => {
+                if (token.type === 'input') {
+                    const inputEl = document.getElementById(`step1-input-${idx}`);
+                    const val = parseInt(inputEl.value, 10);
+                    const isOk = (val === token.correct);
+
+                    if (isOk) {
+                        inputEl.className = 'input-num w-16 md:w-24 h-12 md:h-14 text-lg md:text-2xl input-correct';
+                    } else {
+                        inputEl.className = 'input-num w-16 md:w-24 h-12 md:h-14 text-lg md:text-2xl input-incorrect';
+                        allCorrect = false;
+                    }
+                    inputEl.disabled = true;
+                }
+            });
+
+            // Validar entrada Final (Paso 2)
+            const inputFinal = document.getElementById('input-final-result');
+            const valFinal = parseInt(inputFinal.value, 10);
+            const isFinalOk = (valFinal === data.finalResult);
+
+            if (isFinalOk) {
+                inputFinal.className = 'input-num w-28 md:w-36 h-14 md:h-16 input-correct';
+            } else {
+                inputFinal.className = 'input-num w-28 md:w-36 h-14 md:h-16 input-incorrect';
+                allCorrect = false;
+            }
+            inputFinal.disabled = true;
+
+            isEvaluated = true;
+
+            const feedbackEl = document.getElementById('feedback-message');
+            feedbackEl.classList.remove('hidden');
+
+            if (allCorrect) {
+                correctCount++;
+                feedbackEl.classList.add('bg-emerald-100', 'text-emerald-900', 'border-emerald-400');
+                feedbackEl.innerHTML = `<i class="fa-solid fa-star text-amber-500 mr-2"></i> ¡Excelente! Has resuelto los pasos y el resultado de forma impecable.`;
+            } else {
+                incorrectCount++;
+                feedbackEl.classList.add('bg-rose-100', 'text-rose-900', 'border-rose-400');
+                feedbackEl.innerHTML = `<i class="fa-solid fa-circle-exclamation text-rose-600 mr-2"></i> Revisa las casillas en rojo. Si hay paréntesis, resuélvelos primero.`;
+            }
+
+            document.getElementById('score-correct').innerText = correctCount;
+            document.getElementById('score-incorrect').innerText = incorrectCount;
+
+            document.getElementById('btn-check').classList.add('hidden');
+            document.getElementById('btn-next').classList.remove('hidden');
+        }
+
+        // Siguiente actividad
+        function nextActivity() {
+            currentActivityIndex++;
+            if (currentActivityIndex < TOTAL_ACTIVITIES) {
+                loadActivity(currentActivityIndex);
+            } else {
+                showReport();
+            }
+        }
+
+        // Mostrar Informe Final
+        function showReport() {
+            screenActivity.classList.add('hidden');
+            screenActivity.classList.remove('flex');
+            screenReport.classList.remove('hidden');
+            screenReport.classList.add('flex');
+
+            const total = TOTAL_ACTIVITIES;
+            const percentage = Math.round((correctCount / total) * 100);
+
+            document.getElementById('final-correct').innerText = correctCount;
+            document.getElementById('final-incorrect').innerText = incorrectCount;
+            document.getElementById('final-percentage').innerText = `${percentage}%`;
+
+            const badgeContainer = document.getElementById('badge-container');
+            const badgeIcon = document.getElementById('badge-icon');
+            const feedbackText = document.getElementById('final-feedback-text');
+
+            if (percentage >= 90) {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-amber-300 text-amber-800";
+                badgeIcon.className = "fa-solid fa-trophy text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Excelente! Domina las operaciones combinadas. 🏆";
+            } else if (percentage >= 70) {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-emerald-300 text-emerald-800";
+                badgeIcon.className = "fa-solid fa-medal text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Muy Bien! Has comprendido la jerarquía a la perfección. 🌟";
+            } else {
+                badgeContainer.className = "w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full thick-border flex items-center justify-center shadow-xl mb-3 bg-indigo-300 text-indigo-900";
+                badgeIcon.className = "fa-solid fa-award text-6xl md:text-7xl";
+                feedbackText.innerText = "¡Sigue practicando! Repasa el orden de los paréntesis. 💪";
+            }
+        }
+
+        // Reiniciar
+        function restartApp() {
+            screenReport.classList.add('hidden');
+            screenReport.classList.remove('flex');
+            screenStart.classList.remove('hidden');
+            screenStart.classList.add('flex');
+        }
+
+        // Modales y Locución por voz
+        function openHelpModal() {
+            modalHelp.classList.remove('hidden');
+        }
+
+        function closeHelpModal() {
+            modalHelp.classList.add('hidden');
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            document.getElementById('speak-btn-text').innerText = "Reproducir";
+        }
+
+        function speakHelpText() {
+            if (!('speechSynthesis' in window)) {
+                alert("Tu navegador no soporta lectura por voz.");
+                return;
+            }
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+                return;
+            }
+
+            const textToSpeak = "Para resolver operaciones combinadas de sumas y restas debemos seguir dos reglas básicas. Primero: resolver lo que está dentro de los paréntesis. Segundo: realizar las sumas y restas en orden estricto de izquierda a derecha.";
+            
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.9;
+
+            utterance.onstart = () => {
+                document.getElementById('speak-btn-text').innerText = "Detener";
+            };
+
+            utterance.onend = () => {
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+            };
+
+            utterance.onerror = () => {
+                document.getElementById('speak-btn-text').innerText = "Reproducir";
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

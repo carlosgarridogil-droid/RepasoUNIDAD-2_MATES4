@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPASO EN CASA - MATEMÁTICAS (DESDOBLE)</title>
+    <!-- Fuentes redondeadas estilo infantil-juvenil -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul-marco: #0284C7;
+            --azul-principal: #0369A1;
+            --azul-brillante: #38BDF8;
+            --amarillo-pildora: #F59E0B;
+            --amarillo-suave: #FEF3C7;
+            --fondo-tarjeta: #F0F9FF;
+            --sombra-caja: rgba(2, 132, 199, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Fredoka', 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0c4a6e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Contenedor Principal con Marco Azul */
+        .contenedor-principal {
+            background-color: #FFFFFF;
+            border: 14px solid var(--azul-marco);
+            border-radius: 35px;
+            width: 100%;
+            max-width: 950px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px var(--sombra-caja);
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Título Principal y Subtítulos */
+        .titulo-principal {
+            color: var(--azul-principal);
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            line-height: 1.1;
+            text-shadow: 2px 2px 0px #E0F2FE;
+        }
+
+        .subtitulo-1 {
+            color: #0284C7;
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .pildora-desdoble {
+            background-color: var(--amarillo-pildora);
+            color: #78350F;
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 6px 30px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 30px;
+            border: 3px solid #FBBF24;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+            letter-spacing: 1px;
+        }
+
+        /* Rejilla de Fichas Interactivas */
+        .grid-fichas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* Tarjeta de Ficha */
+        .tarjeta-ficha {
+            background: linear-gradient(145deg, #FFFFFF, var(--fondo-tarjeta));
+            border: 4px solid var(--azul-brillante);
+            border-radius: 24px;
+            padding: 22px 15px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 220px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 18px rgba(2, 132, 199, 0.12);
+        }
+
+        .tarjeta-ficha:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: var(--azul-principal);
+            background: linear-gradient(145deg, #E0F2FE, #BAE6FD);
+            box-shadow: 0 14px 25px rgba(3, 105, 161, 0.25);
+        }
+
+        /* Dibujos 3D Grandes Animados */
+        .icono-3d {
+            font-size: 3.8rem;
+            margin: 8px 0;
+            line-height: 1;
+            filter: drop-shadow(3px 5px 6px rgba(0, 0, 0, 0.22));
+            transition: transform 0.4s ease;
+            animation: flotar 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes flotar {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-6px) rotate(4deg); }
+        }
+
+        .tarjeta-ficha:hover .icono-3d {
+            transform: scale(1.2) rotate(6deg);
+            animation-play-state: paused;
+        }
+
+        .titulo-ficha {
+            color: #0F172A;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 8px 0;
+            line-height: 1.3;
+        }
+
+        .boton-abrir {
+            font-size: 0.85rem;
+            color: #FFFFFF;
+            background-color: var(--azul-principal);
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 14px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+        .tarjeta-ficha:hover .boton-abrir {
+            background-color: #0284C7;
+            transform: scale(1.05);
+        }
+
+        /* Pie de Página / Créditos */
+        .creditos {
+            border-top: 2px dashed #BAE6FD;
+            padding-top: 20px;
+            color: #475569;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .creditos strong {
+            color: var(--azul-principal);
+            font-weight: 800;
+        }
+
+        @media (max-width: 650px) {
+            .titulo-principal { font-size: 2.2rem; }
+            .subtitulo-1 { font-size: 1.3rem; }
+            .pildora-desdoble { font-size: 1.1rem; padding: 5px 20px; }
+            .contenedor-principal { border-width: 8px; padding: 25px 15px; }
+            .icono-3d { font-size: 3.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contenedor-principal">
+
+        <!-- Encabezado Principal -->
+        <h1 class="titulo-principal">REPASO EN CASA</h1>
+        <div class="subtitulo-1">UNIDAD 2 - MATEMÁTICAS</div>
+        <div class="pildora-desdoble">✨ DESDOBLE ✨</div>
+
+        <!-- Rejilla con las Fichas del Desdoble -->
+        <div class="grid-fichas">
+
+            <!-- Ficha 1: Propiedad Conmutativa -->
+            <a href="propiedad_conmutativa_4_primaria.html" class="tarjeta-ficha" target="_blank">
+                <div class="icono-3d">🔄</div>
+                <div class="titulo-ficha">Propiedad Conmutativa</div>
+                <span class="boton-abrir">Abrir Ficha ➔</span>
+            </a>
+
+            <!-- Ficha 2: Propiedad Asociativa -->
+            <a href="propiedad_asociativa_4_primaria.html" class="tarjeta-ficha" target="_blank">
+                <div class="icono-3d">🪀</div>
+                <div class="titulo-ficha">Propiedad Asociativa</div>
+                <span class="boton-abrir">Abrir Ficha ➔</span>
+            </a>
+
+            <!-- Ficha 3: Estimación de Sumas y Restas -->
+            <a href="estimaci_n_de_sumas_y_restas_4_primaria.html" class="tarjeta-ficha" target="_blank">
+                <div class="icono-3d">🎯</div>
+                <div class="titulo-ficha">Estimación de Sumas y Restas</div>
+                <span class="boton-abrir">Abrir Ficha ➔</span>
+            </a>
+
+            <!-- Ficha 4: Operaciones Combinadas -->
+            <a href="operaciones_combinadas_4_primaria.html" class="tarjeta-ficha" target="_blank">
+                <div class="icono-3d">🧩</div>
+                <div class="titulo-ficha">Operaciones Combinadas</div>
+                <span class="boton-abrir">Abrir Ficha ➔</span>
+            </a>
+
+            <!-- Ficha 5: Problemas de Estimación -->
+            <a href="Problemas de estimación.html" class="tarjeta-ficha" target="_blank">
+                <div class="icono-3d">💡</div>
+                <div class="titulo-ficha">Problemas de Estimación</div>
+                <span class="boton-abrir">Abrir Ficha ➔</span>
+            </a>
+
+        </div>
+
+        <!-- Créditos del Pie de Página -->
+        <div class="creditos">
+            Aplicación realizada por el maestro <strong>Carlos Garrido</strong>
+        </div>
+
+    </div>
+
+</body>
+</html>
